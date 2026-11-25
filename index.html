@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainUp — Yoshga mos aqliy o‘yinlar platformasi</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Orqa fon dekoratsiyalari -->
+    <div class="bg-shapes">
+        <div class="shape shape-1">🧠</div>
+        <div class="shape shape-2">🚀</div>
+        <div class="shape shape-3">🎮</div>
+        <div class="shape shape-4">💡</div>
+        <div class="shape shape-5">🏆</div>
+        <div class="shape shape-6">🧩</div>
+    </div>
+
+    <!-- Yuqori navigatsiya paneli -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <div class="logo" onclick="goHome()">
+                <span class="logo-icon">🧠</span>
+                <span class="logo-text">Brain<span class="highlight">Up</span></span>
+            </div>
+
+            <div class="nav-controls" id="navControls" style="display: none;">
+                <div class="stat-badge age-badge" onclick="openAgeModal()" title="Yoshni o‘zgartirish">
+                    <span>🎂</span>
+                    <span id="navAgeText">12 yosh</span>
+                    <small class="edit-hint">✏️</small>
+                </div>
+                <div class="stat-badge score-badge">
+                    <span>⭐</span>
+                    <span id="navTotalScore">0</span> ball
+                </div>
+                <button class="btn-icon" onclick="openLeaderboardModal()" title="Eng yaxshi natijalar">
+                    🏆
+                </button>
+                <button class="btn-icon" onclick="openAddGameModal()" title="Yangi o‘yin qo‘shish">
+                    ➕
+                </button>
+                <button class="btn-profile" onclick="openProfileModal()">
+                    <span id="navAvatar">🦊</span>
+                    <span id="navUsername">O‘yinchi</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. BOSH SAHIFA (HERO SECTION) -->
+    <main class="container">
+        <section id="landingSection" class="landing-section">
+            <div class="hero-content">
+                <div class="hero-badge">✨ Interaktiv Aqliy Rivojlanish Platformasi</div>
+                <h1 class="hero-title">
+                    Miya quvvatingni <span class="gradient-text">BrainUp</span> bilan kashf et!
+                </h1>
+                <p class="hero-description">
+                    5 yoshdan 20 yoshgacha bo‘lgan bolalar va yoshlar uchun maxsus ishlab chiqilgan 
+                    mantiqiy, matematik, xotira va strategik o‘yinlar olami. Yoshingizni kiriting va 
+                    o‘zingizga mos intellektual sarguzashtni boshlang!
+                </p>
+                
+                <div class="hero-actions">
+                    <button class="btn-primary btn-lg pulse-anim" onclick="openAgeModal()">
+                        <span>🚀</span> O‘ynashni boshlash
+                    </button>
+                    <button class="btn-secondary btn-lg" onclick="openLeaderboardModal()">
+                        <span>🏆</span> Rekordlar jadvali
+                    </button>
+                </div>
+
+                <div class="hero-features">
+                    <div class="feature-pill">🎯 5 ta yosh toifasi</div>
+                    <div class="feature-pill">🧩 20+ interaktiv o‘yinlar</div>
+                    <div class="feature-pill">🏅 Ballar va reyting tizimi</div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <span class="fc-emoji">🎨</span>
+                    <div>
+                        <strong>5–6 yosh</strong>
+                        <p>Ranglar va shakllar</p>
+                    </div>
+                </div>
+                <div class="floating-card card-2">
+                    <span class="fc-emoji">🔢</span>
+                    <div>
+                        <strong>7–9 yosh</strong>
+                        <p>Xotira va matematika</p>
+                    </div>
+                </div>
+                <div class="floating-card card-3">
+                    <span class="fc-emoji">🕵️</span>
+                    <div>
+                        <strong>10–15 yosh</strong>
+                        <p>Labirint va detektiv</p>
+                    </div>
+                </div>
+                <div class="floating-card card-4">
+                    <span class="fc-emoji">♟️</span>
+                    <div>
+                        <strong>16–20 yosh</strong>
+                        <p>Shifrlar va strategiya</p>
+                    </div>
+                </div>
+                <div class="central-brain">🧠</div>
+            </div>
+        </section>
+
+        <!-- 2. O'YINLAR KATALOGI (DASHBOARD) -->
+        <section id="dashboardSection" class="dashboard-section" style="display: none;">
+            <div class="category-banner" id="categoryBanner">
+                <div class="banner-info">
+                    <span class="category-tag" id="categoryTag">10–15 yosh toifasi</span>
+                    <h2 id="categoryTitle">O‘smirlar uchun intellektual o‘yinlar</h2>
+                    <p id="categoryDesc">Mantiqiy fikrlash, kodlarni yechish va detektiv jumboqlar to‘plami.</p>
+                </div>
+                <div class="banner-actions">
+                    <button class="btn-glass" onclick="openAgeModal()">🔄 Yoshni o‘zgartirish</button>
+                    <button class="btn-glass" onclick="openAddGameModal()">➕ O‘yin qo‘shish</button>
+                </div>
+            </div>
+
+            <div class="games-grid" id="gamesGrid">
+                <!-- O'yin kartalari JS orqali dinamik ravishda yuklanadi -->
+            </div>
+        </section>
+
+        <!-- 3. O'YIN MAYDONI (ARENA) -->
+        <section id="gameArenaSection" class="game-arena-section" style="display: none;">
+            <div class="arena-header">
+                <button class="btn-back" onclick="exitGame()">← O‘yinlarga qaytish</button>
+                <div class="arena-title-box">
+                    <span id="arenaIcon">🎮</span>
+                    <h2 id="arenaTitle">O‘yin nomi</h2>
+                </div>
+                <div class="arena-stats">
+                    <span class="arena-badge">Savol: <strong id="arenaProgress">1/5</strong></span>
+                    <span class="arena-badge score">Ball: <strong id="arenaScore">0</strong></span>
+                </div>
+            </div>
+
+            <!-- O'yin qoidalari va Boshlash ekrani -->
+            <div id="gameIntroScreen" class="game-box intro-box">
+                <div class="intro-emoji" id="introEmoji">🧩</div>
+                <h3 id="introTitle">O‘yin nomi</h3>
+                <div class="rules-card">
+                    <h4>📜 O‘yin qoidalari:</h4>
+                    <p id="introRules">Qoidalar matni...</p>
+                </div>
+                <button class="btn-primary btn-lg" onclick="startCurrentGame()">
+                    ▶️ O‘yinni boshlash
+                </button>
+            </div>
+
+            <!-- Faol o'yin jarayoni ekrani -->
+            <div id="gamePlayScreen" class="game-box play-box" style="display: none;">
+                <div id="gameContentArea" class="game-content-area">
+                    <!-- Har bir o'yinning savol va interfeysi shu yerga chiqadi -->
+                </div>
+                <div id="gameFeedback" class="game-feedback" style="display: none;"></div>
+                <div class="game-footer-controls">
+                    <button id="nextQuestionBtn" class="btn-primary" style="display: none;" onclick="nextQuestion()">
+                        Keyingi savol ➡️
+                    </button>
+                </div>
+            </div>
+
+            <!-- O'yin yakuni va natija ekrani -->
+            <div id="gameResultScreen" class="game-box result-box" style="display: none;">
+                <div class="result-trophy" id="resultTrophy">🏆</div>
+                <h3 id="resultHeading">Ajoyib natija!</h3>
+                <p id="resultSubtext">Siz o‘yinni muvaffaqiyatli yakunladingiz.</p>
+                
+                <div class="result-stats-grid">
+                    <div class="res-stat">
+                        <span>To‘plangan ball</span>
+                        <strong id="finalEarnedScore">+50</strong>
+                    </div>
+                    <div class="res-stat">
+                        <span>To‘g‘ri javoblar</span>
+                        <strong id="finalCorrectCount">5 / 5</strong>
+                    </div>
+                    <div class="res-stat">
+                        <span>Umumiy balingiz</span>
+                        <strong id="finalTotalUserScore">150</strong>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn-primary" onclick="restartCurrentGame()">🔄 Qayta o‘ynash</button>
+                    <button class="btn-secondary" onclick="exitGame()">📋 Boshqa o‘yinlar</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL 1: YOSH KIRITISH OYNASI -->
+    <div id="ageModal" class="modal-overlay">
+        <div class="modal-card age-modal-card">
+            <button class="modal-close" onclick="closeModal('ageModal')">✖</button>
+            <div class="modal-icon">🎂</div>
+            <h2>Yoshingiz nechida?</h2>
+            <p>Sizning yoshingizga mos aqliy o‘yinlarni avtomatik tanlab beramiz (5 dan 20 yoshgacha).</p>
+            
+            <form id="ageForm" onsubmit="handleAgeSubmit(event)">
+                <div class="input-group">
+                    <input type="number" id="ageInput" placeholder="Masalan: 12" min="1" max="100" required>
+                </div>
+                <div id="ageError" class="error-message" style="display: none;"></div>
+                <button type="submit" class="btn-primary btn-block">
+                    O‘yinlarni ko‘rsatish ✨
+                </button>
+            </form>
+
+            <div class="age-brackets-info">
+                <span>5–6</span> • <span>7–9</span> • <span>10–15</span> • <span>16–17</span> • <span>18–20</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: FOYDALANUVCHI PROFILI -->
+    <div id="profileModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('profileModal')">✖</button>
+            <h2>👤 Foydalanuvchi profili</h2>
+            
+            <div class="avatar-selector" id="avatarSelector">
+                <span class="avatar-opt selected" onclick="selectAvatar('🦊')">🦊</span>
+                <span class="avatar-opt" onclick="selectAvatar('🦁')">🦁</span>
+                <span class="avatar-opt" onclick="selectAvatar('🐼')">🐼</span>
+                <span class="avatar-opt" onclick="selectAvatar('🚀')">🚀</span>
+                <span class="avatar-opt" onclick="selectAvatar('🤖')">🤖</span>
+                <span class="avatar-opt" onclick="selectAvatar('🦄')">🦄</span>
+            </div>
+
+            <div class="form-group">
+                <label>Ismingiz yoki taxallusingiz:</label>
+                <input type="text" id="profileNameInput" placeholder="Ismingizni kiriting">
+            </div>
+
+            <div class="profile-summary">
+                <div class="p-stat">
+                    <small>Joriy yosh</small>
+                    <strong id="profAge">-</strong>
+                </div>
+                <div class="p-stat">
+                    <small>Umumiy ball</small>
+                    <strong id="profScore">0</strong>
+                </div>
+                <div class="p-stat">
+                    <small>O‘ynalgan o‘yinlar</small>
+                    <strong id="profGamesPlayed">0</strong>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h4>📜 So‘nggi natijalar tarixi:</h4>
+                <ul id="gameHistoryList" class="history-list">
+                    <!-- Tarix JS orqali to'ldiriladi -->
+                </ul>
+            </div>
+
+            <div class="modal-footer-btns">
+                <button class="btn-primary" onclick="saveProfile()">💾 Saqlash</button>
+                <button class="btn-danger-outline" onclick="resetAllData()">🗑️ Ma'lumotlarni tozalash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: ENG YAXSHI NATIJALAR (LEADERBOARD) -->
+    <div id="leaderboardModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('leaderboardModal')">✖</button>
+            <div class="modal-icon">🏆</div>
+            <h2>Eng yaxshi natijalar</h2>
+            <p>Har bir o‘yin bo‘yicha eng yuqori rekordlaringiz va umumiy reyting</p>
+
+            <div class="leaderboard-tabs">
+                <button class="tab-btn active" onclick="switchLeaderboardTab('records', this)">⭐ Shaxsiy rekordlar</button>
+                <button class="tab-btn" onclick="switchLeaderboardTab('topPlayers', this)">👑 Top o‘yinchilar</button>
+            </div>
+
+            <div id="leaderboardContent" class="leaderboard-list">
+                <!-- Natijalar JS orqali chiqadi -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: YANGI O'YIN QO'SHISH -->
+    <div id="addGameModal" class="modal-overlay">
+        <div class="modal-card modal-lg">
+            <button class="modal-close" onclick="closeModal('addGameModal')">✖</button>
+            <h2>➕ Yangi aqliy o‘yin qo‘shish</h2>
+            <p>O‘zingizning savol-javob o‘yiningizni yarating va platformaga qo‘shing!</p>
+
+            <form id="addGameForm" onsubmit="handleCreateCustomGame(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>O‘yin nomi:</label>
+                        <input type="text" id="customTitle" placeholder="Masalan: Poytaxtlarni top" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Yosh toifasi:</label>
+                        <select id="customCategory" required>
+                            <option value="5-6">5–6 yosh</option>
+                            <option value="7-9">7–9 yosh</option>
+                            <option value="10-15" selected>10–15 yosh</option>
+                            <option value="16-17">16–17 yosh</option>
+                            <option value="18-20">18–20 yosh</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Emoji belgisi:</label>
+                        <input type="text" id="customEmoji" value="🌟" maxlength="2" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Qisqacha tavsif va qoida:</label>
+                    <input type="text" id="customDesc" placeholder="To‘g‘ri javobni tanlang va ball to‘plang!" required>
+                </div>
+
+                <div class="custom-questions-container">
+                    <h4>Savollar (kamida 2 ta savol kiriting):</h4>
+                    
+                    <div class="cq-block">
+                        <strong>1-savol:</strong>
+                        <input type="text" id="cq1_q" placeholder="Savol matni" required>
+                        <div class="cq-options">
+                            <input type="text" id="cq1_opt1" placeholder="To‘g‘ri javob" class="correct-inp" required>
+                            <input type="text" id="cq1_opt2" placeholder="Noto‘g‘ri variant 1" required>
+                            <input type="text" id="cq1_opt3" placeholder="Noto‘g‘ri variant 2" required>
+                        </div>
+                    </div>
+
+                    <div class="cq-block">
+                        <strong>2-savol:</strong>
+                        <input type="text" id="cq2_q" placeholder="Savol matni" required>
+                        <div class="cq-options">
+                            <input type="text" id="cq2_opt1" placeholder="To‘g‘ri javob" class="correct-inp" required>
+                            <input type="text" id="cq2_opt2" placeholder="Noto‘g‘ri variant 1" required>
+                            <input type="text" id="cq2_opt3" placeholder="Noto‘g‘ri variant 2" required>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary btn-block">🚀 O‘yinni saqlash va qo‘shish</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>
